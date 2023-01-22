@@ -1,0 +1,189 @@
+{% extends 'admin.html.twig' %}
+{% block body %}
+    <!-- Button trigger modal -->
+    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModalCenter">
+        Ajouter un menu
+    </button>
+
+    <!-- Modal -->
+    <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLongTitle">Ajout de menu</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form method="post" action="{{path('add_menu') }}" enctype="multipart/form-data">
+
+                        <div class="form-group">
+                            <label for="formGroupExampleInput">Libelle</label>
+                            <input type="text" name="libelle" class="form-control" id="formGroupExampleInput" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="formGroupExampleInput">Burger</label>
+                            <select class="custom-select form-control" name="burger">
+                                {% for br in burgers %}
+                                    <option value="{{ br.id }}">{{ br.libelle }} - {{ br.prix }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="formGroupExampleInput">Complement 1 | Boisson</label>
+                            <select class="custom-select form-control" name="boisson">
+                                {% for bs in boissons %}
+                                <option value="{{ bs.id }}">{{ bs.libelle }} - {{ bs.prix }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="formGroupExampleInput">Complement 2 | Frittes</label>
+                            <select class="custom-select form-control" name="fritte">
+                                {% for fr in frittes %}
+                                <option value="{{ fr.id }}">{{ fr.libelle }} - {{ fr.prix }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+
+
+                        <div class="form-group">
+                            <label for="formGroupExampleInput2">Image</label>
+                            <input type="file" name="image" class="form-control" required>
+                        </div>
+                        <input type="submit" class="btn btn-primary" value="Ajouter">
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Annuler</button>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+    {% if update is defined %}
+        <div class="card">
+            <div class="m-3 mb-0">
+                <p>Modifier un burger</p>
+            </div>
+            <div class="card-body">
+                <form method="post" action="{{ path('app_admin_menu_save') }}">
+                    <div class="row">
+                        <div class="col-6">
+                            <label for="formGroupExampleInput">Nom</label>
+                            <input type="text" name="libelle" class="form-control" value="{{ update.libelle }}" placeholder="First name">
+                            <input type="text" name="id" value="{{ update.id }}" hidden>
+                        </div>
+                        <div class="form-group col-6">
+                            <label for="formGroupExampleInput">Burger</label>
+                            <select class="custom-select form-control" name="burger">
+                                {% for br in burgers %}
+                                    <option value="{{ br.id }}">{{ br.libelle }} - {{ br.prix }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+
+                        <div class="form-group col-6">
+                            <label for="formGroupExampleInput">Complement 1 | Boisson</label>
+                            <select class="custom-select form-control" name="boisson">
+                                {% for bs in boissons %}
+                                    <option value="{{ bs.id }}">{{ bs.libelle }} - {{ bs.prix }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+
+                        <div class="form-group col-6">
+                            <label for="formGroupExampleInput">Complement 2 | Frittes</label>
+                            <select class="custom-select form-control" name="fritte">
+                                {% for fr in frittes %}
+                                    <option value="{{ fr.id }}">{{ fr.libelle }} - {{ fr.prix }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+
+                        <div class="col">
+                            <input type="submit" class="form-control btn btn-warning" value="Modifier">
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    {% endif %}
+
+
+    <div class="row mt-3">
+        <div class="col-12">
+            <div class="card mb-4">
+                <div class="card-header pb-0">
+                    <h6>Authors table</h6>
+                </div>
+                <div class="card-body px-0 pt-0 pb-2">
+                    <div class="table-responsive p-0">
+                        <table class="table align-items-center mb-0 table-hover">
+                            <thead>
+                            <tr>
+                                <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Libelle</th>
+
+                                <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Burger</th>
+                                <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Boisson</th>
+                                <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Fritte</th>
+                                <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Etat</th>
+                                <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Prix</th>
+                                <th class="text-secondary opacity-7"></th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            {% for menu in menus %}
+                                <tr>
+                                    <td>
+                                        <div class="d-flex px-2 py-1">
+                                            <div>
+                                                <img src="/produits/{{ menu.image }}" class="avatar avatar-sm me-3" alt="user1">
+                                            </div>
+                                            <div class="d-flex flex-column justify-content-center">
+                                                <h6 class="badge badge-sm bg-gradient-success">{{ menu.libelle }}</h6>
+                                            </div>
+                                        </div>
+                                    </td>
+
+                                    <td class="align-middle text-sm">
+                                        <p class="">{{ menu.burger.libelle }}</p>
+                                    </td>
+                                    {% for comp in menu.complementMenus %}
+                                    <td class="align-middle text-sm">
+                                        <p class="">{{ comp.complement.libelle }}</p>
+                                    </td>
+                                    {% endfor %}
+                                    <td class="align-middle text-sm">
+                                        <p class="badge badge-sm bg-gradient-success">{{ menu.prix }}</p>
+                                    </td>
+                                    <td class="align-middle text-sm">
+                                        <a href="{{ path('menu_visibility', {'id':menu.id })}}" class="btn btn-sm btn-warning"> {% if menu.isEtat%} Archiver {% else %} Afficher {% endif%} </a>
+                                    </td>
+                                    <td class="align-middle">
+                                        <a href="{{ path('menu_update', {'id' : menu.id}) }}" class="text-secondary font-weight-bold text-xs" data-toggle="tooltip" data-original-title="Edit user">
+                                            Edit
+                                        </a>
+                                    </td>
+                                </tr>
+                            {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.12.9/dist/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+
+{% endblock %}

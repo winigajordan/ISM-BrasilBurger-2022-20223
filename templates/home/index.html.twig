@@ -1,0 +1,78 @@
+{% extends 'client.html.twig' %}
+
+{% block title %}Shop{% endblock %}
+
+{% block body %}
+
+    <!-- Product Section Begin -->
+    <section class="product spad">
+        <div class="container">
+            <div class="row">
+
+                <div class="col-lg-12 col-md-7">
+
+                    <div class="filter__item">
+                        <div class="row">
+                            <div class="col-lg-4 col-md-5">
+                                <div class="filter__sort">
+                                    <form method="GET">
+                                    <span>Filtrer par</span>
+                                        <select name="filter">
+                                            <option value="menus">Menu</option>
+                                            <option value="burgers">Burger</option>
+                                        </select>
+                                        <input type="submit" class="btn btn-sm btn-success" placeholder="Filtrer">
+                                    </form>
+
+
+                                </div>
+                            </div>
+                            <div class="col-lg-4 col-md-4">
+                                <div class="filter__found">
+                                    <h6><span>{{ products|length }}</span> Produits trouves </h6>
+                                </div>
+                            </div>
+                            <div class="col-lg-4 col-md-3">
+                                <div class="filter__option">
+                                    <span class="icon_grid-2x2"></span>
+                                    <span class="icon_ul"></span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        {% for prod in products %}
+
+
+                                <div class="col-lg-4 col-md-6 col-sm-6">
+                                    <div class="product__item">
+                                        <div class="product__item__pic set-bg" data-setbg="{{ asset("produits/") }}{{ prod.image }}">
+                                            <ul class="product__item__pic__hover">
+                                                <li><a href="{{ path('app_produit_details', {id:prod.id}) }}"><i class="fa fa-info"></i></a></li>
+                                                <li><a  {% if app.request.query.get("filter")=="burgers" %} href="{{ path('app_add_complement', {'id':prod.id}) }}" {% else %} href="{{ path('app_panier_add_one', {'id':prod.id}) }}"{% endif %} href="#"><i class="fa fa-shopping-cart"></i></a></li>
+                                            </ul>
+                                        </div>
+                                        <div class="product__item__text">
+                                            <h6><a href="#">{{ prod.libelle }}</a></h6>
+                                            <h5>{{ prod.prix }} XOF</h5>
+                                            {% set id = prod.id %}
+                                        </div>
+
+                                    </div>
+                                </div>
+
+                        {% endfor %}
+
+                    </div>
+                    <div class="product__pagination">
+                        <a href="#">1</a>
+                        <a href="#">2</a>
+                        <a href="#">3</a>
+                        <a href="#"><i class="fa fa-long-arrow-right"></i></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- Product Section End -->
+{% endblock %}

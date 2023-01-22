@@ -1,0 +1,92 @@
+{% extends 'client.html.twig' %}
+
+{% block title %}Panier{% endblock %}
+
+{% block body %}
+    <section class="breadcrumb-section set-bg" data-setbg="img/breadcrumb.jpg">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12 text-center">
+                    <div class="breadcrumb__text">
+                        <h2 style="color: black">Panier</h2>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- Shoping Cart Section Begin -->
+    <section class="shoping-cart spad">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="shoping__cart__table">
+                        <form method="post" action="{{ path('app_panier_add') }}">
+                        <table>
+                            <thead>
+                            <tr>
+                                <th class="shoping__product">Produits</th>
+                                <th>Prix</th>
+                                <th>Qte</th>
+                                <th>Total</th>
+                                <th></th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            {% for item in panier %}
+                            <tr>
+                                <td class="shoping__cart__item">
+                                    <img height="100" width="100" src="{{ asset("produits/") }}{{ item.prod.image }}" alt="">
+                                    <h5>{{item.prod.libelle}}</h5>
+                                </td>
+                                <td class="shoping__cart__price">
+                                    {{ item.prod.prix }}
+                                </td>
+                                <td class="shoping__cart__quantity">
+                                    <div class="quantity">
+                                        <div class="pro-qty">
+                                            <input type="text" value="{{ item.qte }}" name="{{ item.prod.id }}">
+                                        </div>
+                                    </div>
+                                </td>
+                                <td class="shoping__cart__total">
+                                    {{ item.montant }}
+                                </td>
+                                <td class="shoping__cart__item__close">
+                                    <span class="icon_close"></span>
+                                </td>
+                            </tr>
+                            {% endfor %}
+                            </tbody>
+                        </table>
+
+                        <div class="col-lg-12 mt-3">
+                            <div class="shoping__cart__btns">
+                                <input type="submit" href="#" class="btn primary-btn cart-btn cart-btn-right" value="Mettre a jour le panier">
+
+                            </div>
+                        </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+
+                <div class="col-lg-6">
+
+                </div>
+                <div class="col-lg-6">
+                    <div class="shoping__checkout">
+                        <h5>Cart Total</h5>
+                        <ul>
+
+                            <li>Total <span>{{ total }} XOF</span></li>
+                        </ul>
+                        <a href="#" class="primary-btn">Passer ma commande</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- Shoping Cart Section End -->
+
+{% endblock %}
